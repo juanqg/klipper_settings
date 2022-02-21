@@ -1,0 +1,23 @@
+# Fixing Linux Distro to self announce the host on the Network
+This fix is usually required on raspPi an other Linux small distros to allow the OS to self annouce themselves on the network and making them available.
+
+# Make it announce itself in the network. This should be the default. Incredibly it still isn't.
+apt update
+apt install -y avahi-daemon
+cd /etc/avahi/services/
+wget -c https://raw.githubusercontent.com/lathiat/avahi/master/avahi-daemon/sftp-ssh.service
+wget -c https://raw.githubusercontent.com/lathiat/avahi/master/avahi-daemon/ssh.service
+
+
+# If you have resolution issues...
+cd -
+sed -i -e 's|use-ipv6=yes|use-ipv6=no|g' /etc/avahi/avahi-daemon.conf 
+service avahi-daemon restart
+
+you can check avahi config for errors:
+/etc/avahi/avahi-daemon.conf
+
+set this...
+[server]
+host-name=the_hostname
+domain-name=local
